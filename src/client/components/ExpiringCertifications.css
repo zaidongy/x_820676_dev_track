@@ -1,0 +1,81 @@
+.expiring-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.expiring-summary {
+  padding: 10px;
+  background: #fff3cd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.expiring-item {
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 12px;
+  background: white;
+}
+
+.expiring-item:hover {
+  background: #f8f9fa;
+}
+
+.developer-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.cert-name {
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.expiry-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.days-remaining {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.days-remaining.urgent {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.days-remaining.warning {
+  background: #fff8e1;
+  color: #f57c00;
+}
+
+.days-remaining.normal {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+.expiry-date {
+  color: #666;
+}
+
+.more-items {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 10px;
+}
+
+.no-data {
+  text-align: center;
+  color: #666;
+  padding: 40px;
+  font-style: italic;
+}

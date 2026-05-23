@@ -1,0 +1,6 @@
+{
+    "scope": "x_820676_dev_track",
+    "scopeId": "a3e065aec3bf3210ccc9fc84e4013188",
+    "name": "Developer Certification Tracker",
+    "tsconfigPath": "./src/server/tsconfig.json"
+}
