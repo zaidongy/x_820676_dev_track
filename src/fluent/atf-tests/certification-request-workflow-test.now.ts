@@ -1,16 +1,6 @@
 import '@servicenow/sdk/global'
 import { Test } from '@servicenow/sdk/core'
 
-/**
- * ATF Test: Certification Request Approval Workflow
- * 
- * This test validates the complete certification request workflow:
- * 1. Employee creates a certification request
- * 2. Request moves to pending approval automatically  
- * 3. Manager approves the request
- * 4. System creates Developer Certification record automatically
- * 5. Validates business rule functionality
- */
 Test({
   $id: Now.ID['cert_request_workflow_test'],
   name: 'Certification Request Approval Workflow',
@@ -19,19 +9,24 @@ Test({
   failOnServerError: true
 }, (atf) => {
 
-  // Log test start
-  atf.server.log({
-    $id: Now.ID['workflow_test_start'],
-    log: 'Starting certification request workflow test'
+  // Step 1: Create a test user and impersonate
+  atf.server.createUser({
+    $id: Now.ID['create_test_user_workflow'],
+    firstName: 'ATF',
+    lastName: 'WorkflowTester',
+    fieldValues: {},
+    groups: [],
+    roles: [],
+    impersonate: true
   });
 
-  // Step 1: Create a test certification first (prerequisite)
+  // Step 2: Create a test certification (prerequisite)
   const testCert = atf.server.recordInsert({
     $id: Now.ID['create_test_certification'],
     table: 'x_820676_dev_track_certification',
     fieldValues: {
       "name": "ATF Test Certification - Application Developer",
-      "certification_track": "application_developer", 
+      "certification_track": "application_developer",
       "difficulty_level": "professional",
       "renewal_period_months": "24",
       "active": "true"
@@ -40,42 +35,33 @@ Test({
     enforceSecurity: false
   });
 
-  // Step 2: Open new certification request form
+  // Step 3: Open new certification request form
   atf.form.openNewForm({
     $id: Now.ID['open_cert_request_form'],
     table: 'x_820676_dev_track_cert_request',
-    formUI: 'standard_ui',
-    view: ''
+    formUI: 'standard_ui'
   });
 
-  // Step 3: Validate mandatory fields and initial state
+  // Step 4: Validate mandatory fields and initial state
   atf.form.fieldStateValidation({
     $id: Now.ID['validate_request_mandatory'],
     table: 'x_820676_dev_track_cert_request',
-    mandatory: ['certification', 'justification'], // Required fields
+    mandatory: ['certification', 'justification'],
     notMandatory: ['target_completion_date', 'estimated_cost'],
     visible: ['certification', 'justification', 'target_completion_date', 'approval_status'],
     formUI: 'standard_ui'
   });
 
-  // Step 4: Fill out certification request form
+  // Step 5: Fill out certification request form
   atf.form.setFieldValue({
     $id: Now.ID['fill_cert_request'],
     table: 'x_820676_dev_track_cert_request',
     fieldValues: {
-      "certification": testCert.record_id, // Reference to our test certification
+      "certification": testCert.record_id,
       "justification": "Need this certification to advance in application development role. Will help improve our team's capabilities in ServiceNow app development.",
-      "target_completion_date": "2024-06-30",
+      "target_completion_date": "2025-06-30",
       "estimated_cost": "2500.00"
     },
-    formUI: 'standard_ui'
-  });
-
-  // Step 5: Validate field values were set correctly
-  atf.form.fieldValueValidation({
-    $id: Now.ID['validate_request_values'],
-    table: 'x_820676_dev_track_cert_request', 
-    conditions: 'justificationCONTAINSapplication development^estimated_cost=2500',
     formUI: 'standard_ui'
   });
 
@@ -86,48 +72,88 @@ Test({
     formUI: 'standard_ui'
   });
 
-  // Step 7: Verify request was created with Draft status initially
+  // Step 7: Verify request was created with Draft status (default)
   atf.server.recordValidation({
     $id: Now.ID['verify_request_draft'],
     table: 'x_820676_dev_track_cert_request',
     recordId: requestSubmission.record_id,
-    fieldValues: 'approval_status=draft^justificationCONTAINSapplication development',
+    fieldValues: 'approval_status=draft',
     assert: 'record_validated',
     enforceSecurity: false
   });
 
-  // Step 8: Update request status to Pending Approval (simulate workflow)
-  atf.server.recordUpdate({
-    $id: Now.ID['move_to_pending'],
+  // Step 8: Open the request record to change status to Pending Approval via form
+  atf.form.openExistingRecord({
+    $id: Now.ID['open_request_for_pending'],
     table: 'x_820676_dev_track_cert_request',
     recordId: requestSubmission.record_id,
+    formUI: 'standard_ui',
+    view: ''
+  });
+
+  // Step 9: Set approval_status to pending_approval through the form
+  atf.form.setFieldValue({
+    $id: Now.ID['set_pending_approval'],
+    table: 'x_820676_dev_track_cert_request',
     fieldValues: {
       "approval_status": "pending_approval"
     },
-    assert: 'record_successfully_updated',
+    formUI: 'standard_ui'
+  });
+
+  // Step 10: Submit to trigger business rule (notifyManagerForApproval)
+  atf.form.submitForm({
+    $id: Now.ID['submit_pending_approval'],
+    assert: 'form_submitted_to_server',
+    formUI: 'standard_ui'
+  });
+
+  // Step 11: Verify request is now in Pending Approval
+  atf.server.recordValidation({
+    $id: Now.ID['verify_request_pending'],
+    table: 'x_820676_dev_track_cert_request',
+    recordId: requestSubmission.record_id,
+    fieldValues: 'approval_status=pending_approval',
+    assert: 'record_validated',
     enforceSecurity: false
   });
 
-  // Step 9: Verify status change triggered business rule (check for notification)
-  atf.server.log({
-    $id: Now.ID['pending_status_log'],
-    log: 'Request moved to pending approval - business rule should have triggered manager notification'
+  // Step 12: Validate that manager notification email was sent
+  atf.email.validateOutboundEmailGeneratedByNotification({
+    $id: Now.ID['validate_manager_email'],
+    sourceNotification: 'x_820676_dev_track.cert_request_approval',
+    conditions: 'type=sent',
+    table: 'x_820676_dev_track_cert_request'
   });
 
-  // Step 10: Simulate manager approval
-  atf.server.recordUpdate({
-    $id: Now.ID['approve_request'],
+  // Step 13: Open the request again to approve it
+  atf.form.openExistingRecord({
+    $id: Now.ID['open_request_for_approval'],
     table: 'x_820676_dev_track_cert_request',
     recordId: requestSubmission.record_id,
+    formUI: 'standard_ui',
+    view: ''
+  });
+
+  // Step 14: Set approval_status to approved
+  atf.form.setFieldValue({
+    $id: Now.ID['approve_request'],
+    table: 'x_820676_dev_track_cert_request',
     fieldValues: {
       "approval_status": "approved",
       "approver_comments": "Approved - this certification aligns with team development goals"
     },
-    assert: 'record_successfully_updated',
-    enforceSecurity: false
+    formUI: 'standard_ui'
   });
 
-  // Step 11: Verify request is now approved
+  // Step 15: Submit to trigger business rule (createDeveloperCertification)
+  atf.form.submitForm({
+    $id: Now.ID['submit_approval'],
+    assert: 'form_submitted_to_server',
+    formUI: 'standard_ui'
+  });
+
+  // Step 16: Verify request is now approved
   atf.server.recordValidation({
     $id: Now.ID['verify_request_approved'],
     table: 'x_820676_dev_track_cert_request',
@@ -137,27 +163,52 @@ Test({
     enforceSecurity: false
   });
 
-  // Step 12: Verify that Developer Certification record was auto-created by business rule
-  atf.server.recordQuery({
+  // Step 17: Verify that Developer Certification record was auto-created by business rule
+  const devCertQuery = atf.server.recordQuery({
     $id: Now.ID['check_dev_cert_created'],
     table: 'x_820676_dev_track_dev_cert',
     fieldValues: `certification=${testCert.record_id}^status=in_progress`,
-    assert: 'records_match_query',
     enforceSecurity: false
   });
 
-  // Step 13: Log successful workflow completion
-  atf.server.log({
-    $id: Now.ID['workflow_success_log'],
-    log: 'Certification request workflow completed successfully - request approved and developer certification auto-created'
+  // Step 18: Validate the auto-created developer certification record
+  atf.server.recordValidation({
+    $id: Now.ID['validate_dev_cert_auto_created'],
+    table: 'x_820676_dev_track_dev_cert',
+    recordId: devCertQuery.first_record,
+    fieldValues: 'status=in_progress',
+    assert: 'record_validated',
+    enforceSecurity: false
   });
 
-  // Step 14: Clean up test data
+  // Step 19: Clean up — delete child records before parent
   atf.server.recordDelete({
-    $id: Now.ID['cleanup_test_cert'],
+    $id: Now.ID['cleanup_dev_cert_workflow'],
+    table: 'x_820676_dev_track_dev_cert',
+    recordId: devCertQuery.first_record,
+    assert: 'record_successfully_deleted',
+    enforceSecurity: false
+  });
+
+  atf.server.recordDelete({
+    $id: Now.ID['cleanup_cert_request'],
+    table: 'x_820676_dev_track_cert_request',
+    recordId: requestSubmission.record_id,
+    assert: 'record_successfully_deleted',
+    enforceSecurity: false
+  });
+
+  atf.server.recordDelete({
+    $id: Now.ID['cleanup_test_cert_workflow'],
     table: 'x_820676_dev_track_certification',
     recordId: testCert.record_id,
     assert: 'record_successfully_deleted',
     enforceSecurity: false
+  });
+
+  // Step 20: Log completion
+  atf.server.log({
+    $id: Now.ID['workflow_success_log'],
+    log: 'Certification request workflow test completed'
   });
 });

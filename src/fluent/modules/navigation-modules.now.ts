@@ -14,7 +14,7 @@ export const certificationTrackerCategory = Record({
 // Create the top-level application menu
 export const certificationTrackerMenu = ApplicationMenu({
     $id: Now.ID['certification_tracker_menu'],
-    title: 'Certification Tracker',
+    title: 'Developer Certification Tracker',
     hint: 'ServiceNow Developer Certification Tracking System',
     description: 'Track and manage ServiceNow developer certifications',
     category: certificationTrackerCategory,

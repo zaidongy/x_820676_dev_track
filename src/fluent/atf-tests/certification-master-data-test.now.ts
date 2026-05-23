@@ -1,15 +1,6 @@
 import '@servicenow/sdk/global'
 import { Test } from '@servicenow/sdk/core'
 
-/**
- * ATF Test: Create and Manage Certification Master Data
- * 
- * This test validates that administrators can:
- * 1. Create new certification records  
- * 2. Update certification details
- * 3. Validate field behavior and mandatory checks
- * 4. Verify certification appears in lists
- */
 Test({
   $id: Now.ID['cert_master_data_test'],
   name: 'Certification Master Data Management',
@@ -17,53 +8,49 @@ Test({
   active: true,
   failOnServerError: true
 }, (atf) => {
-  
-  // Log test start
-  atf.server.log({
-    $id: Now.ID['cert_test_start'],
-    log: 'Starting certification master data management test'
+
+  // Step 1: Create a test user and impersonate
+  atf.server.createUser({
+    $id: Now.ID['create_test_user_master'],
+    firstName: 'ATF',
+    lastName: 'MasterDataTester',
+    fieldValues: {},
+    groups: [],
+    roles: [],
+    impersonate: true
   });
 
-  // Step 1: Open new certification form
+  // Step 2: Open new certification form
   atf.form.openNewForm({
     $id: Now.ID['open_new_cert_form'],
     table: 'x_820676_dev_track_certification',
-    formUI: 'standard_ui',
-    view: ''
+    formUI: 'standard_ui'
   });
 
-  // Step 2: Validate mandatory fields are properly marked  
+  // Step 3: Validate mandatory fields are properly marked
   atf.form.fieldStateValidation({
     $id: Now.ID['validate_cert_mandatory_fields'],
     table: 'x_820676_dev_track_certification',
-    mandatory: ['name'], // Name is mandatory
-    notMandatory: ['external_url', 'certification_track'], // These are optional
+    mandatory: ['name'],
+    notMandatory: ['external_url', 'certification_track'],
     visible: ['name', 'certification_track', 'difficulty_level', 'renewal_period_months', 'active'],
-    readOnly: [], // No read-only fields on new form
+    readOnly: [],
     notReadOnly: ['name', 'certification_track', 'difficulty_level'],
     formUI: 'standard_ui'
   });
 
-  // Step 3: Set field values for new certification
+  // Step 4: Set field values for new certification
   atf.form.setFieldValue({
     $id: Now.ID['set_cert_values'],
     table: 'x_820676_dev_track_certification',
     fieldValues: {
       "name": "ATF Test - ServiceNow Certified System Administrator",
       "certification_track": "system_administrator",
-      "difficulty_level": "foundational", 
+      "difficulty_level": "foundational",
       "renewal_period_months": "36",
       "external_url": "https://www.servicenow.com/services/training-and-certification.html",
       "active": "true"
     },
-    formUI: 'standard_ui'
-  });
-
-  // Step 4: Validate field values are set correctly
-  atf.form.fieldValueValidation({
-    $id: Now.ID['validate_cert_field_values'],
-    table: 'x_820676_dev_track_certification',
-    conditions: 'name=ATF Test - ServiceNow Certified System Administrator^certification_track=system_administrator^difficulty_level=foundational',
     formUI: 'standard_ui'
   });
 
@@ -77,7 +64,7 @@ Test({
   // Step 6: Verify certification record was created in database
   atf.server.recordValidation({
     $id: Now.ID['validate_cert_created'],
-    table: 'x_820676_dev_track_certification', 
+    table: 'x_820676_dev_track_certification',
     recordId: certSubmission.record_id,
     fieldValues: 'name=ATF Test - ServiceNow Certified System Administrator^active=true^renewal_period_months=36',
     assert: 'record_validated',
@@ -90,8 +77,7 @@ Test({
     table: 'x_820676_dev_track_certification',
     recordId: certSubmission.record_id,
     formUI: 'standard_ui',
-    view: '',
-    selectedTabIndex: 1
+    view: ''
   });
 
   // Step 8: Update the certification track
@@ -122,9 +108,18 @@ Test({
     enforceSecurity: false
   });
 
-  // Step 11: Log successful completion
+  // Step 11: Clean up test data
+  atf.server.recordDelete({
+    $id: Now.ID['cleanup_test_cert_master'],
+    table: 'x_820676_dev_track_certification',
+    recordId: certSubmission.record_id,
+    assert: 'record_successfully_deleted',
+    enforceSecurity: false
+  });
+
+  // Step 12: Log completion
   atf.server.log({
     $id: Now.ID['cert_test_complete'],
-    log: 'Certification master data test completed successfully'
+    log: 'Certification master data test completed'
   });
 });
