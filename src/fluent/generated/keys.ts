@@ -231,6 +231,10 @@ declare global {
                         table: 'sys_security_acl'
                         id: 'e85500b515084e56b389a54b0ca75de4'
                     }
+                    dev_cert_tracker_test_suite: {
+                        table: 'sys_atf_test_suite'
+                        id: '0a284c73690f4434bab2d2eeee5b5802'
+                    }
                     dev_cert_write_acl: {
                         table: 'sys_security_acl'
                         id: '707ca5d26d004eb082e3003bf174d965'
@@ -361,6 +365,18 @@ declare global {
                     submit_updated_cert: {
                         table: 'sys_atf_step'
                         id: '8d22b335d7a542fca59da9b0ef8719bc'
+                    }
+                    suite_link_expiration: {
+                        table: 'sys_atf_test_suite_test'
+                        id: '1f0cbe5df581419fa233f98254b8c657'
+                    }
+                    suite_link_master_data: {
+                        table: 'sys_atf_test_suite_test'
+                        id: '36f3a425cfa14cfbb268ed4928c9457d'
+                    }
+                    suite_link_workflow: {
+                        table: 'sys_atf_test_suite_test'
+                        id: '4a6c4c4b32ec49c58c243491fba0858b'
                     }
                     update_cert_track: {
                         table: 'sys_atf_step'
