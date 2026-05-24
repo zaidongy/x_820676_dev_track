@@ -16,7 +16,7 @@ Test({
     lastName: 'MasterDataTester',
     fieldValues: {},
     groups: [],
-    roles: [],
+    roles: ['1308332e0993409ebc1702a6d361ca9a'],
     impersonate: true
   });
 

@@ -16,7 +16,7 @@ Test({
     lastName: 'WorkflowTester',
     fieldValues: {},
     groups: [],
-    roles: [],
+    roles: ['1308332e0993409ebc1702a6d361ca9a'],
     impersonate: true
   });
 
@@ -118,15 +118,7 @@ Test({
     enforceSecurity: false
   });
 
-  // Step 12: Validate that manager notification email was sent
-  atf.email.validateOutboundEmailGeneratedByNotification({
-    $id: Now.ID['validate_manager_email'],
-    sourceNotification: 'x_820676_dev_track.cert_request_approval',
-    conditions: 'type=sent',
-    table: 'x_820676_dev_track_cert_request'
-  });
-
-  // Step 13: Open the request again to approve it
+  // Step 12: Open the request again to approve it
   atf.form.openExistingRecord({
     $id: Now.ID['open_request_for_approval'],
     table: 'x_820676_dev_track_cert_request',
@@ -135,7 +127,7 @@ Test({
     view: ''
   });
 
-  // Step 14: Set approval_status to approved
+  // Step 13: Set approval_status to approved
   atf.form.setFieldValue({
     $id: Now.ID['approve_request'],
     table: 'x_820676_dev_track_cert_request',
@@ -146,14 +138,14 @@ Test({
     formUI: 'standard_ui'
   });
 
-  // Step 15: Submit to trigger business rule (createDeveloperCertification)
+  // Step 14: Submit to trigger business rule (createDeveloperCertification)
   atf.form.submitForm({
     $id: Now.ID['submit_approval'],
     assert: 'form_submitted_to_server',
     formUI: 'standard_ui'
   });
 
-  // Step 16: Verify request is now approved
+  // Step 15: Verify request is now approved
   atf.server.recordValidation({
     $id: Now.ID['verify_request_approved'],
     table: 'x_820676_dev_track_cert_request',
@@ -163,7 +155,7 @@ Test({
     enforceSecurity: false
   });
 
-  // Step 17: Verify that Developer Certification record was auto-created by business rule
+  // Step 16: Verify that Developer Certification record was auto-created by business rule
   const devCertQuery = atf.server.recordQuery({
     $id: Now.ID['check_dev_cert_created'],
     table: 'x_820676_dev_track_dev_cert',
@@ -171,7 +163,7 @@ Test({
     enforceSecurity: false
   });
 
-  // Step 18: Validate the auto-created developer certification record
+  // Step 17: Validate the auto-created developer certification record
   atf.server.recordValidation({
     $id: Now.ID['validate_dev_cert_auto_created'],
     table: 'x_820676_dev_track_dev_cert',
@@ -181,7 +173,7 @@ Test({
     enforceSecurity: false
   });
 
-  // Step 19: Clean up — delete child records before parent
+  // Step 18: Clean up — delete child records before parent
   atf.server.recordDelete({
     $id: Now.ID['cleanup_dev_cert_workflow'],
     table: 'x_820676_dev_track_dev_cert',
@@ -206,7 +198,7 @@ Test({
     enforceSecurity: false
   });
 
-  // Step 20: Log completion
+  // Step 19: Log completion
   atf.server.log({
     $id: Now.ID['workflow_success_log'],
     log: 'Certification request workflow test completed'

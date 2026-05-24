@@ -50,20 +50,23 @@ export function createDeveloperCertification(current, previous) {
  */
 export function calculateExpirationDate(current, previous) {
     // Only trigger when date_earned is populated and status is passed
-    if (current.getValue('status') === 'passed' && 
-        current.getValue('date_earned') && 
+    if (current.getValue('status') === 'passed' &&
+        current.getValue('date_earned') &&
         !current.getValue('expiration_date')) {
-        
+
         // Get the certification record to get renewal period
         const certGR = new GlideRecord('x_820676_dev_track_certification')
         if (certGR.get(current.getValue('certification'))) {
-            const renewalMonths = certGR.getValue('renewal_period_months') || 24
-            
-            // Calculate expiration date
-            const dateEarned = new GlideDateTime(current.getValue('date_earned'))
-            dateEarned.addMonthsUTC(parseInt(renewalMonths))
-            
-            current.setValue('expiration_date', dateEarned.getDate().getValue())
+            const renewalMonths = parseInt(certGR.getValue('renewal_period_months')) || 24
+
+            // Use setValue with internal datetime format to construct GlideDateTime reliably
+            const dateEarnedStr = current.getValue('date_earned') // "YYYY-MM-DD"
+            const gdt = new GlideDateTime()
+            gdt.setValue(dateEarnedStr + ' 00:00:00')
+            gdt.addMonthsUTC(renewalMonths)
+
+            // Extract "YYYY-MM-DD" from internal datetime string "YYYY-MM-DD HH:MM:SS"
+            current.setValue('expiration_date', gdt.getValue().substring(0, 10))
             gs.addInfoMessage('Expiration date calculated based on certification renewal period')
         }
     }

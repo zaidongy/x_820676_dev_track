@@ -29,9 +29,17 @@ declare global {
                         table: 'x_820676_dev_track_certification'
                         id: 'b81383462e4a451a9ff19bea445fae2e'
                     }
+                    cert_create_acl: {
+                        table: 'sys_security_acl'
+                        id: '2c1d893885544eeda9394f14374eed6f'
+                    }
                     cert_csa: {
                         table: 'x_820676_dev_track_certification'
                         id: '0f7310731a9f469a96d0bf7719e5cd32'
+                    }
+                    cert_delete_acl: {
+                        table: 'sys_security_acl'
+                        id: '59407f361d9b47168e9ffe2296f58b35'
                     }
                     cert_expiration_test: {
                         table: 'sys_atf_test'
@@ -49,6 +57,10 @@ declare global {
                         table: 'x_820676_dev_track_certification'
                         id: '0218297cc97a44b0b7e3728636abd1d0'
                     }
+                    cert_read_acl: {
+                        table: 'sys_security_acl'
+                        id: '762ee7c0abfc492e8531c3b86df41138'
+                    }
                     cert_req_1: {
                         table: 'x_820676_dev_track_cert_request'
                         id: '62947b86805245209744314d59fa3bcd'
@@ -65,17 +77,33 @@ declare global {
                         table: 'x_820676_dev_track_cert_request'
                         id: '8c5fc9aaeaed406c86a54ff97d1d63be'
                     }
+                    cert_request_create_acl: {
+                        table: 'sys_security_acl'
+                        id: '91268f1170fc4adcb307f43ed9450f46'
+                    }
                     cert_request_create_dev_cert: {
                         table: 'sys_script'
                         id: '9325dc0d98754dc0936c1b48abb2e0d5'
+                    }
+                    cert_request_delete_acl: {
+                        table: 'sys_security_acl'
+                        id: 'bc48536c70a14a4997663d92ffa0c809'
                     }
                     cert_request_notify_manager: {
                         table: 'sys_script'
                         id: '2e2f0105288747e998fef4ea4cdd2e8e'
                     }
+                    cert_request_read_acl: {
+                        table: 'sys_security_acl'
+                        id: 'fceacc43c2234fbfab1e5992ed72659e'
+                    }
                     cert_request_workflow_test: {
                         table: 'sys_atf_test'
                         id: '10738c5afb2f478ca4388daf41ace53e'
+                    }
+                    cert_request_write_acl: {
+                        table: 'sys_security_acl'
+                        id: 'f2b4ceaa54e54fbab95199e0437af559'
                     }
                     cert_test_complete: {
                         table: 'sys_atf_step'
@@ -89,6 +117,10 @@ declare global {
                     cert_tracker_category: {
                         table: 'sys_app_category'
                         id: '955bfc8a2a8a462eac15c2d9747c332c'
+                    }
+                    cert_write_acl: {
+                        table: 'sys_security_acl'
+                        id: '45993cd033c547b5ac19d7eb21a7ffb7'
                     }
                     certification_tracker_menu: {
                         table: 'sys_app_application'
@@ -186,6 +218,22 @@ declare global {
                     dev_cert_calculate_expiration: {
                         table: 'sys_script'
                         id: '482d705705cd45a2842a206a89a16531'
+                    }
+                    dev_cert_create_acl: {
+                        table: 'sys_security_acl'
+                        id: '58181637538b4f7992706b872bbea02d'
+                    }
+                    dev_cert_delete_acl: {
+                        table: 'sys_security_acl'
+                        id: '4680a8bb14a44f13ba0342a5231872aa'
+                    }
+                    dev_cert_read_acl: {
+                        table: 'sys_security_acl'
+                        id: 'e85500b515084e56b389a54b0ca75de4'
+                    }
+                    dev_cert_write_acl: {
+                        table: 'sys_security_acl'
+                        id: '707ca5d26d004eb082e3003bf174d965'
                     }
                     expiration_test_complete: {
                         table: 'sys_atf_step'
@@ -342,6 +390,7 @@ declare global {
                     validate_manager_email: {
                         table: 'sys_atf_step'
                         id: '98909093c6c941da8d8ef4c2bc02abd0'
+                        deleted: true
                     }
                     validate_request_mandatory: {
                         table: 'sys_atf_step'
@@ -453,6 +502,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: '03630411e8a44934af0723072026b331'
+                        key: {
+                            sys_security_acl: '58181637538b4f7992706b872bbea02d'
+                            sys_user_role: {
+                                id: '99ca7787824e4a3fbfa7f769fff1bc81'
+                                key: {
+                                    name: 'x_820676_dev_track.user'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_ui_page'
                         id: '0364dc35a04b4a6490db3545c055b83a'
                         key: {
@@ -492,6 +554,32 @@ declare global {
                             document: 'sys_atf_step'
                             document_key: '2efaec6df2314fd09e773c4bdd2f9d28'
                             variable: '52ed1e5b5360220002c6435723dc3421'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '0bcc9a93a7a943f4b28ba03c1ffb5bb4'
+                        key: {
+                            sys_security_acl: '91268f1170fc4adcb307f43ed9450f46'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '0be7d0b6ac334d5b9123b41a3b0e1a74'
+                        key: {
+                            sys_security_acl: 'f2b4ceaa54e54fbab95199e0437af559'
+                            sys_user_role: {
+                                id: 'dd8d5939bed9453fb1d0013c718c3440'
+                                key: {
+                                    name: 'x_820676_dev_track.manager'
+                                }
+                            }
                         }
                     },
                     {
@@ -620,6 +708,19 @@ declare global {
                         key: {
                             document_key: 'a931651e78a74370af1e17e5ed131389'
                             variable: '67400008676003007ba405225685efa4'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '115f02f801f543269eca7b8865ed4613'
+                        key: {
+                            sys_security_acl: '762ee7c0abfc492e8531c3b86df41138'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
                         }
                     },
                     {
@@ -771,6 +872,19 @@ declare global {
                         key: {
                             name: 'x_820676_dev_track_dev_cert'
                             element: 'expiration_date'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '1eb6a0defef34f5cbca3912749c7db24'
+                        key: {
+                            sys_security_acl: '45993cd033c547b5ac19d7eb21a7ffb7'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
                         }
                     },
                     {
@@ -1029,6 +1143,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: '3232f089f38940398c58f2e1aa42656a'
+                        key: {
+                            sys_security_acl: '707ca5d26d004eb082e3003bf174d965'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_variable_value'
                         id: '3251ec28eaea458d80c1b47547a702ea'
                         key: {
@@ -1219,6 +1346,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: '3eedf75f519e4773b8ac22d0f702a03c'
+                        key: {
+                            sys_security_acl: '58181637538b4f7992706b872bbea02d'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_choice'
                         id: '410cec744c4f498daf51b8abb32aee74'
                         key: {
@@ -1234,6 +1374,19 @@ declare global {
                             name: 'x_820676_dev_track_certification'
                             element: 'NULL'
                             language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '42e42af0781c4ea0b4fb9da6d50ceb5a'
+                        key: {
+                            sys_security_acl: '4680a8bb14a44f13ba0342a5231872aa'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
                         }
                     },
                     {
@@ -1294,6 +1447,19 @@ declare global {
                         key: {
                             field: 'record_id'
                             id: '9998571b1b5749ce9b22e33cdbdc5a5f'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '47d22d8a44b545ad87a35c0ba607b010'
+                        key: {
+                            sys_security_acl: 'f2b4ceaa54e54fbab95199e0437af559'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
                         }
                     },
                     {
@@ -1416,6 +1582,19 @@ declare global {
                             document: 'sys_atf_step'
                             document_key: '23dc4b255b8e4fb488562b3d2e0f78e2'
                             variable: '02fb0027531000109e02ddeeff7b120b'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '511c1ac755d4407fadce327d16acd549'
+                        key: {
+                            sys_security_acl: '58181637538b4f7992706b872bbea02d'
+                            sys_user_role: {
+                                id: 'dd8d5939bed9453fb1d0013c718c3440'
+                                key: {
+                                    name: 'x_820676_dev_track.manager'
+                                }
+                            }
                         }
                     },
                     {
@@ -1748,6 +1927,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: '6470d6a246d44f6aa72891233960341e'
+                        key: {
+                            sys_security_acl: '2c1d893885544eeda9394f14374eed6f'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_variable_value'
                         id: '6478b3a5ca574ff2a48c7c7dd4121086'
                         deleted: true
@@ -1968,6 +2160,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: '7637329913534c4eb6481a10dee290e2'
+                        key: {
+                            sys_security_acl: 'e85500b515084e56b389a54b0ca75de4'
+                            sys_user_role: {
+                                id: '99ca7787824e4a3fbfa7f769fff1bc81'
+                                key: {
+                                    name: 'x_820676_dev_track.user'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_element_mapping'
                         id: '769daabc68f9424ca1e9440b4ac74f25'
                         key: {
@@ -2039,6 +2244,7 @@ declare global {
                     {
                         table: 'sys_variable_value'
                         id: '7ca18369ae604ea4a8a0e9e8913bb3d4'
+                        deleted: true
                         key: {
                             document_key: '98909093c6c941da8d8ef4c2bc02abd0'
                             variable: 'd30577f4c3033300eaac11fe81d3ae3e'
@@ -2051,6 +2257,19 @@ declare global {
                             name: 'x_820676_dev_track_dev_cert'
                             element: 'status'
                             value: 'passed'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '7cdacf0ff204497dbc76ab7cbadff0d7'
+                        key: {
+                            sys_security_acl: '762ee7c0abfc492e8531c3b86df41138'
+                            sys_user_role: {
+                                id: '99ca7787824e4a3fbfa7f769fff1bc81'
+                                key: {
+                                    name: 'x_820676_dev_track.user'
+                                }
+                            }
                         }
                     },
                     {
@@ -2223,6 +2442,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: '8c7d85df9cdd47aab33dc6243afc3560'
+                        key: {
+                            sys_security_acl: '59407f361d9b47168e9ffe2296f58b35'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_variable_value'
                         id: '8c8d8220dd444a8eb881275de82e947b'
                         key: {
@@ -2294,6 +2526,19 @@ declare global {
                             document: 'sys_atf_step'
                             document_key: '7814948279b440d2a275a80418c9ca09'
                             variable: 'b3dba2465320220002c6435723dc34f0'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '913b976c40ac4ce186d03887641632fe'
+                        key: {
+                            sys_security_acl: '707ca5d26d004eb082e3003bf174d965'
+                            sys_user_role: {
+                                id: '99ca7787824e4a3fbfa7f769fff1bc81'
+                                key: {
+                                    name: 'x_820676_dev_track.user'
+                                }
+                            }
                         }
                     },
                     {
@@ -2375,11 +2620,37 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: '9664a96b915f4df18ce3069ff1fe52a3'
+                        key: {
+                            sys_security_acl: '707ca5d26d004eb082e3003bf174d965'
+                            sys_user_role: {
+                                id: 'dd8d5939bed9453fb1d0013c718c3440'
+                                key: {
+                                    name: 'x_820676_dev_track.manager'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_variable_value'
                         id: '96bebf171b66492998c4b8c55f81b02e'
                         key: {
                             document_key: '468487aeaf8a4963b6de215dd3366d2d'
                             variable: '52ed1e5b5360220002c6435723dc3421'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '97e64e1afa534694b18a886178b1fe7d'
+                        key: {
+                            sys_security_acl: 'fceacc43c2234fbfab1e5992ed72659e'
+                            sys_user_role: {
+                                id: '99ca7787824e4a3fbfa7f769fff1bc81'
+                                key: {
+                                    name: 'x_820676_dev_track.user'
+                                }
+                            }
                         }
                     },
                     {
@@ -2428,6 +2699,7 @@ declare global {
                     {
                         table: 'sys_variable_value'
                         id: '9bd53a6c22b4452fbd6a4708f9da10d7'
+                        deleted: true
                         key: {
                             document_key: '98909093c6c941da8d8ef4c2bc02abd0'
                             variable: '13a08fa0c3033300eaac11fe81d3aecf'
@@ -2507,6 +2779,7 @@ declare global {
                     {
                         table: 'sys_variable_value'
                         id: '9f7777694ca34efa831be5bf1e1b447a'
+                        deleted: true
                         key: {
                             document_key: '98909093c6c941da8d8ef4c2bc02abd0'
                             variable: '92c42ff0c3033300eaac11fe81d3aec0'
@@ -2518,6 +2791,19 @@ declare global {
                         key: {
                             application_file: '031f47415f7d49d89b94226fa3513454'
                             source_artifact: '618550e974d744eda98001bec3c885b1'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '9ffbe6f3aaaf4875bf209feeb5e7a06f'
+                        key: {
+                            sys_security_acl: '91268f1170fc4adcb307f43ed9450f46'
+                            sys_user_role: {
+                                id: 'dd8d5939bed9453fb1d0013c718c3440'
+                                key: {
+                                    name: 'x_820676_dev_track.manager'
+                                }
+                            }
                         }
                     },
                     {
@@ -2608,6 +2894,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: 'a3f53277d7cd46bea7fe3f33bb0d24d1'
+                        key: {
+                            sys_security_acl: '762ee7c0abfc492e8531c3b86df41138'
+                            sys_user_role: {
+                                id: 'dd8d5939bed9453fb1d0013c718c3440'
+                                key: {
+                                    name: 'x_820676_dev_track.manager'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_variable_value'
                         id: 'a3f53ddfa47847fea24a8e300fc810bd'
                         key: {
@@ -2673,6 +2972,19 @@ declare global {
                         id: 'a608bdf36e7d4a519dff89c2bda61cd0'
                         key: {
                             name: 'x_820676_dev_track_certification'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: 'a7471cd68c4247a58a4e2988e82a6358'
+                        key: {
+                            sys_security_acl: '91268f1170fc4adcb307f43ed9450f46'
+                            sys_user_role: {
+                                id: '99ca7787824e4a3fbfa7f769fff1bc81'
+                                key: {
+                                    name: 'x_820676_dev_track.user'
+                                }
+                            }
                         }
                     },
                     {
@@ -2878,6 +3190,32 @@ declare global {
                             sys_ui_section: 'bbc925eec3ff3210ccc9fc84e40131b1'
                             element: 'requested_by'
                             position: '5'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: 'b7e78aa90b5846b7923e959ca2e17fc5'
+                        key: {
+                            sys_security_acl: 'bc48536c70a14a4997663d92ffa0c809'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: 'b81be1de643b4fdc80cb9b03615c0711'
+                        key: {
+                            sys_security_acl: 'e85500b515084e56b389a54b0ca75de4'
+                            sys_user_role: {
+                                id: 'dd8d5939bed9453fb1d0013c718c3440'
+                                key: {
+                                    name: 'x_820676_dev_track.manager'
+                                }
+                            }
                         }
                     },
                     {
@@ -3174,6 +3512,19 @@ declare global {
                             name: 'x_820676_dev_track_dev_cert'
                             element: 'date_earned'
                             language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: 'cbcaea24873342ca9e98badd8df9bbf7'
+                        key: {
+                            sys_security_acl: 'e85500b515084e56b389a54b0ca75de4'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
                         }
                     },
                     {
@@ -3631,6 +3982,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: 'ed1f90bc6825413d889448a5c3d08173'
+                        key: {
+                            sys_security_acl: 'fceacc43c2234fbfab1e5992ed72659e'
+                            sys_user_role: {
+                                id: 'dd8d5939bed9453fb1d0013c718c3440'
+                                key: {
+                                    name: 'x_820676_dev_track.manager'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_documentation'
                         id: 'ed72c2ebfef24d0fbd6947163c42f800'
                         key: {
@@ -3692,6 +4056,19 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_security_acl_role'
+                        id: 'f2ffb0339e6c45889f8eda73b6d85fe7'
+                        key: {
+                            sys_security_acl: 'f2b4ceaa54e54fbab95199e0437af559'
+                            sys_user_role: {
+                                id: '99ca7787824e4a3fbfa7f769fff1bc81'
+                                key: {
+                                    name: 'x_820676_dev_track.user'
+                                }
+                            }
+                        }
+                    },
+                    {
                         table: 'sys_element_mapping'
                         id: 'f3d9f0f4abc54cd19cb0fbdab8ebe5bb'
                         key: {
@@ -3706,6 +4083,19 @@ declare global {
                             document: 'sys_atf_step'
                             document_key: '61247ff34b494e59a29c5fae605a951e'
                             variable: '67400008676003007ba405225685efa4'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: 'f40bdb4eb26b4938be0d54226c551b9b'
+                        key: {
+                            sys_security_acl: 'fceacc43c2234fbfab1e5992ed72659e'
+                            sys_user_role: {
+                                id: '1308332e0993409ebc1702a6d361ca9a'
+                                key: {
+                                    name: 'x_820676_dev_track.admin'
+                                }
+                            }
                         }
                     },
                     {

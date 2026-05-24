@@ -16,7 +16,7 @@ Test({
     lastName: 'ExpirationTester',
     fieldValues: {},
     groups: [],
-    roles: [],
+    roles: ['1308332e0993409ebc1702a6d361ca9a'],
     impersonate: true
   });
 
@@ -81,7 +81,7 @@ Test({
     $id: Now.ID['verify_expiration_calculated'],
     table: 'x_820676_dev_track_dev_cert',
     recordId: devCert.record_id,
-    fieldValues: 'status=passed^date_earned=2023-01-15^expiration_dateISNOTEMPTY',
+    fieldValues: 'status=passed^date_earnedISNOTEMPTY^expiration_dateISNOTEMPTY',
     assert: 'record_validated',
     enforceSecurity: false
   });

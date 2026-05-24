@@ -14,6 +14,9 @@ import './scheduled-scripts/certification-expiry.now.ts'
 // Import roles
 import './roles/certification-roles.now.ts'
 
+// Import ACLs
+import './acls/certification-acls.now.ts'
+
 // Import navigation modules
 import './modules/navigation-modules.now.ts'
 
